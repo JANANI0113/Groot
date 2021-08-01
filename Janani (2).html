@@ -1,0 +1,85 @@
+<?php  
+$connect = mysqli_connect("localhost", "root", "", "studentdetails");
+if(isset($_POST["submit"]))
+{
+ if($_FILES['file']['name'])
+ {
+  $filename = explode(".", $_FILES['file']['name']);
+  if($filename[1] == 'csv')
+  {
+   $handle = fopen($_FILES['file']['tmp_name'], "r");
+   while($data = fgetcsv($handle))
+   {
+                $item1 = mysqli_real_escape_string($connect, $data[0]);  
+                $item2 = mysqli_real_escape_string($connect, $data[1]);
+                $item3 = mysqli_real_escape_string($connect, $data[2]);  
+                $item4 = mysqli_real_escape_string($connect, $data[3]);
+                $query = "INSERT into studentdata(stu_id,Name,Dept,Course) values('$item1','$item2','$item3','$item4')";
+                mysqli_query($connect, $query);
+   }
+   fclose($handle);
+   echo <script>alert('Import done');</script>;
+  }
+ }
+}
+?>
+<!doctype html>
+<html>
+<head>
+<img src="https://pnglux.com/wp-content/uploads/2021/03/1616263951_Groot-PNG-File.png" align="right">
+<img src="https://pngimg.com/uploads/groot/groot_PNG18.png"  align="left">
+<title>Forms</title>
+<style>
+div {
+  background-color: green;
+  opacity: 1;
+  width: 500px;
+  padding: 50px;
+  margin: 80px;
+}
+</style>
+<br><br><br><br>
+<center>
+<div><h1><b><i>GROOTAN TECHNOLOGIES ASSIGNMENT</b></i></h1></div>
+</center>
+</head>
+<center>
+<body>
+
+<style>
+body {
+  background-image: url('https://wallpaperaccess.com/full/1090535.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
+  background-size: 100% 100%;
+}
+div {
+  background-color:  #ccf2ff;
+  opacity: 0.8;
+  width: 500px;
+  padding: 50px;
+  margin: 10px;
+}
+
+</style>
+<style> 
+input[type=file], input[type=submit] {
+  background-color: #008080;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+</style>
+
+<div>
+<form action="data" method="post">
+<h1>Submit your CSV here</h1>
+<input type="file"  name="csvfile">
+<input type="submit" value="Clickme">
+</form>
+</div>
+</body>
+</html>
